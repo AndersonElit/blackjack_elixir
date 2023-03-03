@@ -61,7 +61,10 @@ defmodule BlackJack do
   end
 
   def comparar_puntajes(puntaje_jugador, puntaje_pc) when puntaje_jugador == puntaje_pc do
-    IO.puts("Empate.")
+    cond do
+      puntaje_jugador > 21 -> IO.puts("ambos superan los 21 puntos.")
+      true -> IO.puts("Empate.")
+    end
   end
 
 end
