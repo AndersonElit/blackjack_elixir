@@ -24,10 +24,10 @@ defmodule BlackJack do
     IO.puts("carta " <> jugador2 <> " = " <> carta2)
     nuevo_puntaje_1 = puntaje1 ++ [Map.get(@valores, carta1)]
     nuevo_puntaje_2 = puntaje2 ++ [Map.get(@valores, carta2)]
-    if robar_carta?() do
+    if robar_carta?() and Enum.sum(nuevo_puntaje_1) < 21 and Enum.sum(nuevo_puntaje_2) < 21 do
       ronda(jugador1, nuevo_puntaje_1, jugador2, nuevo_puntaje_2)
     else
-      comparar_puntajes(nuevo_puntaje_1, nuevo_puntaje_2)
+      comparar_puntajes(Enum.sum(nuevo_puntaje_1), Enum.sum(nuevo_puntaje_2))
       {nuevo_puntaje_1, nuevo_puntaje_2}
     end
   end
@@ -47,11 +47,17 @@ defmodule BlackJack do
 
   #Comparar puntajes
   def comparar_puntajes(puntaje_jugador, puntaje_pc) when puntaje_jugador > puntaje_pc do
-    IO.puts("El jugador ganó.")
+    cond do
+      puntaje_jugador > 21 -> IO.puts("El PC ganó.")
+      true -> IO.puts("El jugador ganó.")
+    end
   end
 
   def comparar_puntajes(puntaje_jugador, puntaje_pc) when puntaje_jugador < puntaje_pc do
-    IO.puts("El PC ganó.")
+    cond do
+      puntaje_pc > 21 -> IO.puts("El jugador ganó.")
+      true -> IO.puts("El PC ganó.")
+    end
   end
 
   def comparar_puntajes(puntaje_jugador, puntaje_pc) when puntaje_jugador == puntaje_pc do
